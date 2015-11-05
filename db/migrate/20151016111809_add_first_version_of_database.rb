@@ -36,7 +36,7 @@ class AddFirstVersionOfDatabase < ActiveRecord::Migration
     end
 
     create_table :users do | t |
-      t.string :title, null: false
+      t.string :name, null: false
       t.string :email
 
       t.timestamps null: false
