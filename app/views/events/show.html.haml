@@ -1,0 +1,19 @@
+!!!
+%haml
+  %head
+    %title Ciber Mangekamp
+
+  %body
+    %h1
+      = @event.title
+    = link_to 'Tilbake', season_path(@event.season_id)
+
+    %ul
+      - @event.users.each do | user |
+        %li
+          = user.name
+
+    %h1 Add participant
+    = form_tag [@event, @event.participants.build], url: {action: "create"}, html: {class: ""} do
+      = collection_select :user, :user_id, @users, :id, :name
+      = submit_tag 'Add participant'

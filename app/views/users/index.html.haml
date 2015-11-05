@@ -1,0 +1,23 @@
+!!!
+%haml
+  %head
+    %title Ciber Mangekamp
+
+  %body
+    %h1 Users
+    = link_to 'Tilbake', root_path
+
+    %ul
+      - @users.each do | user |
+        %li
+          = user.name
+
+    %h1 Add user
+    = form_tag @user, url: {action: "create"}, html: {class: ""} do
+      = label_tag :'user[name]', 'Name'
+      = text_field_tag :'user[name]'
+      %br
+      = label_tag :'user[email]', 'E-mail'
+      = text_field_tag :'event[email]'
+      %br
+      = submit_tag 'Add user'

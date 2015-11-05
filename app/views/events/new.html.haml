@@ -1,0 +1,23 @@
+!!!
+%haml
+  %head
+    %title Ciber Mangekamp
+
+  %body
+    %h1 Create new event
+    = form_tag @event, url: {action: "create"}, html: {class: ""} do
+      = label_tag :'event[title]', 'Title'
+      = text_field_tag :'event[title]'
+      %br
+      = label_tag :'event[sport]', 'Sport'
+      = text_field_tag :'event[sport]'
+      %br
+      = label_tag :'event[venue]', 'Venue'
+      = text_field_tag :'event[venue]'
+      %br
+      = label_tag :'event[Date]', 'Date'
+      = text_field_tag :'event[date]'
+      %br
+      = submit_tag 'Create event'
+
+    = link_to 'Tilbake'

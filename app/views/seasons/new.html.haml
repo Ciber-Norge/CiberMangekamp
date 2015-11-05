@@ -1,0 +1,17 @@
+!!!
+%haml
+  %head
+    %title Ciber Mangekamp
+
+  %body
+    %h1 Create new season
+    = form_tag @season, url: {action: "create"}, html: {class: ""} do
+      = label_tag :'season[title]', 'Title'
+      = text_field_tag :'season[title]'
+      %br
+      = label_tag :'season[year]', 'Year'
+      = text_field_tag :'season[year]'
+      %br
+      = submit_tag 'Create season'
+
+    = link_to 'Tilbake', root_path

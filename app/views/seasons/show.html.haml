@@ -1,0 +1,30 @@
+!!!
+%haml
+  %head
+    %title Ciber Mangekamp
+
+  %body
+    %h1
+      = @season.title
+    = link_to 'Tilbake', root_path
+
+    %ul
+      - @season.events.each do | event |
+        %li
+          = link_to event.title, season_event_path(event.season_id, event.id)
+
+    %h1 Create new season
+    = form_tag [@season, @season.events.build], url: {action: "create"}, html: {class: ""} do
+      = label_tag :'event[title]', 'Title'
+      = text_field_tag :'event[title]'
+      %br
+      = label_tag :'event[sport]', 'Sport'
+      = text_field_tag :'event[sport]'
+      %br
+      = label_tag :'event[venue]', 'Venue'
+      = text_field_tag :'event[venue]'
+      %br
+      = label_tag :'event[Date]', 'Date'
+      = text_field_tag :'event[date]'
+      %br
+      = submit_tag 'Create event'
