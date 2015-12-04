@@ -13,7 +13,7 @@
         %li
           = link_to event.title, season_event_path(event.season_id, event.id)
 
-    %h1 Create new season
+    %h1 Create new event
     = form_tag [@season, @season.events.build], url: {action: "create"}, html: {class: ""} do
       = label_tag :'event[title]', 'Title'
       = text_field_tag :'event[title]'

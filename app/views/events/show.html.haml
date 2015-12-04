@@ -9,20 +9,16 @@
     = link_to 'Tilbake', season_path(@event.season_id)
 
     %h1 Add participant
-    = form_tag [@event, @event.participants.build], url: {action: "create"}, html: {class: ""} do
+    = form_tag [@event, Participant.new], url: {action: "create"}, html: {class: ""} do
       = collection_select :user, :user_id, @users, :id, :name
       = submit_tag 'Add participant'
 
     %h1 Participants
-    = form_tag [@event, @event.participants.build], url: {action: "create"}, html: {class: ""} do
-      %ul
-        - @event.users.each do | user |
-          %li
-            = user.name
-            = text_field_tag :'result[score]'
-            = text_field_tag :'result[place]'
-      %br
-      = submit_tag 'Save results'
+    %ul
+      - @event.participants.each do | participant |
+        %li
+          = participant.user.name
+          =# link_to "delete", :event_participant, method: :delete, data: { confirm: "You sure?" }
 
     %h1 Results
     %ul
