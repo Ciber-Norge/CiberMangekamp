@@ -18,7 +18,7 @@
       - @event.participants.each do | participant |
         %li
           = participant.user.name
-          =# link_to "delete", :event_participant, method: :delete, data: { confirm: "You sure?" }
+          = link_to "delete", event_participant_path(@event.id, participant.id), :method => 'delete', data: { confirm: "You sure?" }
 
     %h1 Results
     %ul
