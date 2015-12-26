@@ -1,7 +1,6 @@
 class ParticipantsController < ApplicationController
   def create
     event = Event.find(params[:event_id])
-    p params
     unless event.participants.find_by_user_id(params[:user][:user_id])
       participant = event.participants.create(user_params)
       if participant.save
