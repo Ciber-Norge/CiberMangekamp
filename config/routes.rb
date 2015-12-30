@@ -20,6 +20,10 @@ Rails.application.routes.draw do
 
   resources :events do
     resources :participants
+    resource :results do
+      get :mass_new
+      post :mass_create
+    end
   end
 
   resources :users do

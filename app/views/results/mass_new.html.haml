@@ -1,0 +1,18 @@
+!!!
+%haml
+  %head
+    %title Ciber Mangekamp
+
+  %body
+    %h1
+      Mass add results
+      
+    = form_tag(action: 'mass_create') do
+      - @event.participants.each do | participant |
+        = label_tag(participant.user_id, participant.user.name)
+        = text_field_tag("participants[#{participant.id}[score]]")
+        = text_field_tag("participants[#{participant.id}[rank]]")
+        %br
+      = submit_tag
+    %br  
+    = link_to 'Tilbake', event_path(@event)

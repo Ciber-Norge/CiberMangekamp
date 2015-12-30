@@ -11,6 +11,8 @@
     = link_to 'Edit event', edit_event_path(@event)
     %br
     = link_to 'Delete event', { action: :destroy, id: @event }, method: :delete, data: { confirm: 'Are you sure?' }
+    %br
+    = link_to 'Mass add results', mass_new_event_results_path(@event)
 
     %h1 Add participant
     = form_tag [@event, Participant.new], url: {action: "create"} do
@@ -28,4 +30,6 @@
     %ul
       - @event.results.each do | result |
         %li
-          = result
+          = result.participant.user.name
+          = result.score
+          = result.rank
