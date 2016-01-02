@@ -9,7 +9,7 @@
       
     = form_tag(action: 'mass_create') do
       - @event.participants.each do | participant |
-        = label_tag(participant.user_id, participant.user.name)
+        = label_tag(participant.id, participant.user.name)
         = text_field_tag("participants[#{participant.id}[score]]")
         = text_field_tag("participants[#{participant.id}[rank]]")
         %br
