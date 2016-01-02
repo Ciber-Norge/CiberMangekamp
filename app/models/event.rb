@@ -1,7 +1,7 @@
 class Event < ActiveRecord::Base
   belongs_to :season
-  has_many :participants
-  has_many :results
+  has_many :participants, :dependent => :destroy
+  has_many :results, :dependent => :destroy
 
   accepts_nested_attributes_for :results
 end

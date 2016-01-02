@@ -6,15 +6,17 @@
   %body
     %h1
       = @season.title
-    = link_to 'Tilbake', root_path
-    %br
-    = link_to 'Edit season', edit_season_path(@season.id)
-    %br
-    = link_to 'Delete season', { action: :destroy, id: @season }, method: :delete, data: { confirm: 'Are you sure?' }
-    %br
-    = link_to 'Add event', new_season_event_path(@season.id)
+
+    %p
+      = link_to 'Tilbake', root_path
+      |
+      = link_to 'Edit season', edit_season_path(@season.id)
+      |
+      = link_to 'Delete season', { action: :destroy, id: @season }, method: :delete, data: { confirm: 'Are you sure?' }
+      |
+      = link_to 'Add event', new_season_event_path(@season.id)
 
     %ul
       - @season.events.each do | event |
         %li
-          = link_to event.title, season_event_path(event.season_id, event.id)
+          = link_to event.title, event

@@ -5,12 +5,27 @@
 
   %body
     %h1 Users
-    = link_to 'Tilbake', root_path
-    %br
-    = link_to 'Add user', new_user_path
 
-    %ul
-      - @users.each do | user |
-        %li
-          = user.name
-          = link_to 'Edit', edit_user_path(user)
+    %p
+      = link_to 'Tilbake', root_path
+      |
+      = link_to 'Add user', new_user_path
+
+    %table{:border => 1}
+      %thead
+        %tr
+          %td
+            Name
+          %td
+            E-mail
+          %td
+            Action
+      %tbody
+        - @users.each do | user |
+          %tr
+            %td
+              = user.name
+            %td
+              = user.email
+            %td
+              = link_to 'Edit', edit_user_path(user)

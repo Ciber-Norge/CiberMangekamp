@@ -6,13 +6,18 @@
   %body
     %h1
       = @event.title
-    = link_to 'Tilbake', season_path(@event.season_id)
-    %br
-    = link_to 'Edit event', edit_event_path(@event)
-    %br
-    = link_to 'Delete event', { action: :destroy, id: @event }, method: :delete, data: { confirm: 'Are you sure?' }
-    %br
-    = link_to 'Mass add results', mass_new_event_results_path(@event)
+
+    %p
+      = link_to 'Tilbake', season_path(@event.season_id)
+      |
+      = link_to 'Edit event', edit_event_path(@event)
+      |
+      = link_to 'Delete event', { action: :destroy, id: @event }, method: :delete, data: { confirm: 'Are you sure?' }
+      |
+      - if @event.results.empty?
+        = link_to 'Mass add results', mass_new_event_results_path(@event)
+      - else
+        = link_to 'Mass edit results', mass_edit_event_results_path(@event)
 
     %h1 Add participant
     = form_tag [@event, Participant.new], url: {action: "create"} do
@@ -20,16 +25,41 @@
       = submit_tag 'Add participant'
 
     %h1 Participants
-    %ul
+    %table{:border => 1}
+      %thead
+        %tr
+          %td
+            Name
+          %td
+            Action
+      %tbody
       - @event.participants.each do | participant |
-        %li
-          = participant.user.name
-          = link_to "delete", event_participant_path(@event.id, participant.id), :method => 'delete', data: { confirm: "You sure?" }
+        %tr
+          %td
+            = participant.user.name
+          %td
+            = link_to "remove", event_participant_path(@event.id, participant.id), :method => 'delete', data: { confirm: "You sure?" }
 
     %h1 Results
-    %ul
+    %table{:border => 1}
+      %thead
+        %tr
+          %td
+            Name
+          %td
+            Score
+          %td
+            Rank
+          %td
+            Action
+      %tbody
       - @event.results.each do | result |
-        %li
-          = result.participant.user.name
-          = result.score
-          = result.rank
+        %tr
+          %td
+            = result.participant.user.name
+          %td
+            = result.score
+          %td
+            = result.rank
+          %td
+            = link_to 'edit', edit_event_result_path(result.event_id, result.id)
