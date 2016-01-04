@@ -8,6 +8,7 @@ class EventsController < ApplicationController
   def new
     @event = Event.new
     @event.season_id = params[:season_id]
+    @season = Season.find(params[:season_id])
   end
 
   def create
