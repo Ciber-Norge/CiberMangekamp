@@ -5,4 +5,9 @@
   = f.label :email
   = f.text_field :email
   %br
+  = f.radio_button :sex, "woman"
+  = f.label :sex_woman, "Woman"
+  = f.radio_button :sex, "man"
+  = f.label :sex_man, "Man"
+  %br
   = f.submit
