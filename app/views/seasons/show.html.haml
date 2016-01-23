@@ -38,7 +38,8 @@
         - events.each do |event|
           - event.participants.each do | participant |
             - unless leaderboard[participant.user.name] then leaderboard[participant.user.name] = {} end
-            - leaderboard[participant.user.name][event.title] = participant.result.rank
+            - if participant.result
+              - leaderboard[participant.user.name][event.title] = participant.result.rank
         %br
         - leaderboard.each do | key, value|
           - value[:score] = value.map { |h| h[1] }.sum
