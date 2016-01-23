@@ -15,6 +15,7 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'haml', '4.0'
 # To enable features such as static asset serving and logging on Heroku
 gem 'rails_12factor', group: :production
+gem 'therubyracer', '0.12.2'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
