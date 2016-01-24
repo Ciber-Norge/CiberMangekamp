@@ -11,4 +11,6 @@
   = f.label :date
   = f.text_field :date
   %br
+  = f.collection_select :category_id, Category.all, :id, :title
+  %br
   = f.submit
