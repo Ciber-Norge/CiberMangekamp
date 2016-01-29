@@ -25,41 +25,47 @@
       = submit_tag 'Add participant'
 
     %h1 Participants
-    %table{:border => 1}
-      %thead
-        %tr
-          %td
-            Name
-          %td
-            Action
-      %tbody
-      - @event.participants.each do | participant |
-        %tr
-          %td
-            = participant.user.name
-          %td
-            = link_to "remove", event_participant_path(@event.id, participant.id), :method => 'delete', data: { confirm: "You sure?" }
+    - if @event.participants.empty?
+      No participants yet
+    - else
+      %table{:border => 1}
+        %thead
+          %tr
+            %td
+              Name
+            %td
+              Action
+        %tbody
+        - @event.participants.each do | participant |
+          %tr
+            %td
+              = participant.user.name
+            %td
+              = link_to "remove", event_participant_path(@event.id, participant.id), :method => 'delete', data: { confirm: "You sure?" }
 
     %h1 Results
-    %table{:border => 1}
-      %thead
-        %tr
-          %td
-            Name
-          %td
-            Score
-          %td
-            Rank
-          %td
-            Action
-      %tbody
-      - @event.results.each do | result |
-        %tr
-          %td
-            = result.participant.user.name
-          %td
-            = result.score
-          %td
-            = result.rank
-          %td
-            = link_to 'edit', edit_event_result_path(result.event_id, result.id)
+    - if @event.results.empty?
+      No results yet
+    - else
+      %table{:border => 1}
+        %thead
+          %tr
+            %td
+              Name
+            %td
+              Score
+            %td
+              Rank
+            %td
+              Action
+        %tbody
+        - @event.results.each do | result |
+          %tr
+            %td
+              = result.participant.user.name
+            %td
+              = result.score
+            %td
+              = result.rank
+            %td
+              = link_to 'edit', edit_event_result_path(result.event_id, result.id)
