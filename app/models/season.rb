@@ -2,11 +2,24 @@ class Season < ActiveRecord::Base
   has_many :events
 
   def generate_leaderboard_correct
+    leaderboard = {}
+    events = Event.where("season_id = '#{self.id}'")
+    events.each do | event |
+      results = Result.find(event.event_id)
+
+      {
+        :id => event.id
+        :title => event.title
+        :date => event.date
+        :results =>
+      }
+    end
     # get users with this season
     # get the best score for each category
     ## if missing one, add one with last points
     # get the rest of the best score
     ## is missing some, add scores with last points
+    {}
   end
 
   def generate_leaderboard

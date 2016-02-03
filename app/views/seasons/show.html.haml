@@ -22,7 +22,7 @@
           = link_to event.title, event
 
     %h1 Leaderboard
-    - leaderboard = @season.generate_leaderboard
+    - leaderboard = @season.generate_leaderboard_correct
     - if leaderboard.empty?
       No results yet, for this season
     - else
