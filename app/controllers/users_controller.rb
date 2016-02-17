@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_filter :find_user, only: [:show, :edit, :update]
   def index
-    @users = User.order('name DESC')
+    @users = User.order('name ASC')
   end
 
   def show
