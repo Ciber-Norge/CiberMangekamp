@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.3.0'
+
 gem 'rails', '4.2.4'
 
 gem 'pg', '~> 0.18'
@@ -29,8 +31,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-# Use Unicorn as the app server
-# gem 'unicorn'
+# Use Puma as the app server
+gem 'puma', '~> 2.16'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
