@@ -26,21 +26,28 @@
     - if leaderboard.empty?
       No results yet, for this season
     - else
+      = JSON.pretty_generate(leaderboard)
       %table{:border => 1}
         %thead
           %tr
             %td Rank
             %td Name
-            -# @season.events.each do | event |
-              #%td
-                =# link_to event.title, event
+            - @season.events.each do | event |
+              %td
+                = link_to event.title, event
             %td Total Points
         %tbody
-          - leaderboard.each_with_index do | value, index |
+          - counter = 1
+          - leaderboard.each do | key, value |
             %tr
               %td
-                = index + 1
+                = counter
+                - counter += 1
               %td
-                = value[0]
+                = value[:name]
+              - @season.events.each do | event |
+                %td
+                  - event = value[:results][event.id]
+                  = event[:rank] if event
               %td
-                = value[1].map { |h| h[1] }.sum
+                = value[:score]
