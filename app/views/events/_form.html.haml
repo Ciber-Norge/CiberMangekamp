@@ -14,3 +14,18 @@
   = f.collection_select :category_id, Category.all, :id, :title
   %br
   = f.submit
+
+:javascript
+  var picker = new Pikaday({
+      field: document.getElementById('event_date'),
+      format: 'DD.MM.YYYY',
+      firstDay: 1,
+      showWeekNumber: true,
+      i18n: {
+          previousMonth : 'Forrige m&aring;ned',
+          nextMonth     : 'Neste m&aring;ned',
+          months        : ['Januar','Februar','Mars','April','Mai','Juni','Juli','August','September','Oktober','November','Desember'],
+          weekdays      : ['S&oslash;ndag','Mandag','Tirsdag','Onsdag','Torsdag','Fredag','L&oslash;rdag'],
+          weekdaysShort : ['S&oslash;n','Man','Tir','Ons','Tor','Fre','L&oslash;r']
+        },
+    });
