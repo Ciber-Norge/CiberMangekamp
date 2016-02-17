@@ -1,0 +1,18 @@
+!!!
+%haml
+  %head
+    %title Ciber Mangekamp
+
+  %body
+    %h1
+      Mass add results
+
+    = form_tag(action: 'mass_create') do
+      - User.all.each do | user |
+        = check_box_tag("participants[#{user.id}]", 'participate', @participants.find_by_user_id(user.id))
+        = label_tag("participants[#{user.id}]", user.name)
+        %br
+      = submit_tag
+    %br  
+    = link_to 'Tilbake', event_path(@event)
+

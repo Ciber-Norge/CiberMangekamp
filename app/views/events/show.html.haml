@@ -18,11 +18,11 @@
         = link_to 'Mass add results', mass_new_event_results_path(@event)
       - else
         = link_to 'Mass edit results', mass_edit_event_results_path(@event)
+      |
+      = link_to 'Mass add participants', mass_add_event_participants_path(@event)
 
     %h1 Add participant
-    = form_tag [@event, Participant.new], url: {action: "create"} do
-      = collection_select :user, :user_id, @users, :id, :name
-      = submit_tag 'Add participant'
+    Currently only mass add works
 
     %h1 Participants
     - if @event.participants.empty?

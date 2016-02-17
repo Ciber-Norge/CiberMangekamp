@@ -6,9 +6,13 @@ Rails.application.routes.draw do
   end
 
   resources :events do
-    resources :participants
+    resources :participant, :only => [:create, :destroy]
+    resource :participants, :only => [] do
+      get :mass_add
+      post :mass_create
+    end
     resources :result
-    resource :results do
+    resource :results, :only => []  do
       get :mass_new, :mass_edit
       post :mass_create, :mass_update
     end

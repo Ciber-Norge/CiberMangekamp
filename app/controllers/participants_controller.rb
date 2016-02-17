@@ -1,5 +1,5 @@
 class ParticipantsController < ApplicationController
-  before_filter :find_event, only: [:create, :destroy]
+  before_filter :find_event, only: [:create, :destroy, :mass_add, :mass_create]
   before_filter :find_participant, only: [:destroy]
 
   def create
@@ -15,6 +15,21 @@ class ParticipantsController < ApplicationController
     if @participant
       @participant.destroy
     end
+    redirect_to @event
+  end
+
+  def mass_add
+    @participants = @event.participants
+  end
+
+  def mass_create
+    params[:participants].each do | user_id, value |
+      unless @event.participants.find_by_user_id(user_id)
+        participant = @event.participants.create(:event_id => @event.id, :user_id => user_id)
+        participant.save
+      end
+    end
+
     redirect_to @event
   end
 
