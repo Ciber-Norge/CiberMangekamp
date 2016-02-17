@@ -2,7 +2,7 @@
 
 ## Installasjon
 1. Installer Ruby 2.2
- * Anbefaler enten RVM
+ * Anbefaler RVM eller rbenv
 1. Installer Gem
  * Følger med RVM
 1. Installer Bundle
@@ -10,8 +10,10 @@
 1. Kjør `bundle` i repoet
 1. Installer PostgreSQL
  * Sjekk internett
+ * Se også [PostgressSQL database](#postgresql-database) lengre nede
 1. Lag databasen med `rake db:create`
 1. Kjør migreringer `rake db:migrate`
+1. Prepopuler databasen med `rake db:seed`
 1. Start server med `rails server`
 1. Success?
 
