@@ -7,6 +7,9 @@ class Season < ActiveRecord::Base
     # retrieve all results
     events = Event.where("season_id = '#{self.id}'")
     events.each do | event |
+      # don't add events with no results
+      next if event.results.empty?
+
       participants = Participant.where('event_id = ?', event.id)
       participants.each do | participant |
         user = User.find(participant.user_id)
