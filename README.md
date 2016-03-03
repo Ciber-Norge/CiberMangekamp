@@ -1,7 +1,7 @@
 # CiberMangekamp
 
 ## Installasjon
-1. Installer Ruby 2.2
+1. Installer Ruby 2.2.4
  * Anbefaler RVM eller rbenv
 1. Installer Gem
  * Følger med RVM
