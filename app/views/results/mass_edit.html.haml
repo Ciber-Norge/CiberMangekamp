@@ -12,11 +12,11 @@
         - result = @event.results.find_by_participant_id(participant.id)
         = label_tag(participant.id, participant.user.name)
         - if result
-          = text_field_tag("participants[#{participant.id}[score]]", result.score)
-          = text_field_tag("participants[#{participant.id}[rank]]", result.rank)
+          = text_field_tag("participants[#{participant.id}[score]]", result.score, { placeholder: 'Score' })
+          = text_field_tag("participants[#{participant.id}[rank]]", result.rank, { placeholder: 'Rank'})
         - else
-          = text_field_tag("participants[#{participant.id}[score]]")
-          = text_field_tag("participants[#{participant.id}[rank]]")
+          = text_field_tag("participants[#{participant.id}[score]]", nil, { placeholder: 'Score' })
+          = text_field_tag("participants[#{participant.id}[rank]]", nil, { placeholder: 'Rank' })
         %br
       = submit_tag
     %br  
