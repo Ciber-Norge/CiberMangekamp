@@ -38,10 +38,35 @@
         %tbody
           - counter = 1
           - leaderboard.each do | key, value |
+            - next if value[:sex] == 'man'
             %tr
               %td
-                = counter
-                - counter += 1
+                = value[:rank]
+              %td
+                = value[:name]
+              - @season.events.each do | event |
+                %td
+                  - event = value[:results][event.id]
+                  = event[:rank] if event
+              %td
+                = value[:score]
+      %br
+      %table{:border => 1}
+        %thead
+          %tr
+            %td Rank
+            %td Name
+            - @season.events.each do | event |
+              %td
+                = link_to event.title, event
+            %td Total Points
+        %tbody
+          - counter = 1
+          - leaderboard.each do | key, value |
+            - next if value[:sex] == 'woman'
+            %tr
+              %td
+                = value[:rank]
               %td
                 = value[:name]
               - @season.events.each do | event |

@@ -15,6 +15,7 @@ class Season < ActiveRecord::Base
         user = User.find(participant.user_id)
         leaderboard[user.id] ||= {}
         leaderboard[user.id][:name] = user.name
+        leaderboard[user.id][:sex] = user.sex
         leaderboard[user.id][:results] ||= {}
         leaderboard[user.id][:results][event.id] = {
           :event_id => event.id,
@@ -45,6 +46,12 @@ class Season < ActiveRecord::Base
     # sum all scores
     leaderboard.each do | key, value |
       value[:score] = value[:results].sum { |key, result| result[:rank] }
+    end
+
+    # calculate ranks
+    # TODO
+    leaderboard.each do | key, value |
+      value[:rank] = 0
     end
 
     # get users with this season
