@@ -8,7 +8,13 @@
       Mass add results
       
     = form_tag(action: 'mass_create') do
-      - @event.participants.each do | participant |
+      - @event.participants.men.each do | participant |
+        = label_tag(participant.id, participant.user.name)
+        = text_field_tag("participants[#{participant.id}[score]]", nil, { placeholder: 'Score' })
+        = text_field_tag("participants[#{participant.id}[rank]]", nil, { placeholder: 'Rank' })
+        %br
+      %br
+      - @event.participants.women.each do | participant |
         = label_tag(participant.id, participant.user.name)
         = text_field_tag("participants[#{participant.id}[score]]", nil, { placeholder: 'Score' })
         = text_field_tag("participants[#{participant.id}[rank]]", nil, { placeholder: 'Rank' })
