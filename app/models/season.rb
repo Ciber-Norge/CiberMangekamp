@@ -1,6 +1,7 @@
 class Season < ActiveRecord::Base
   has_many :events
 
+  # TODO: move this to a helper method
   def generate_leaderboard_correct
     leaderboard = {}
 
@@ -13,6 +14,7 @@ class Season < ActiveRecord::Base
       participants = Participant.where('event_id = ?', event.id)
       participants.each do | participant |
         user = User.find(participant.user_id)
+        next if user.retired
         leaderboard[user.id] ||= {}
         leaderboard[user.id][:name] = user.name
         leaderboard[user.id][:sex] = user.sex

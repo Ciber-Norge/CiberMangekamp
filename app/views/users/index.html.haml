@@ -21,6 +21,8 @@
           %td
             Sex
           %td
+            Retired
+          %td
             Action
       %tbody
         - @users.each do | user |
@@ -31,5 +33,7 @@
               = user.email
             %td
               = user.sex
+            %td
+              = user.retired
             %td
               = link_to 'Edit', edit_user_path(user)
