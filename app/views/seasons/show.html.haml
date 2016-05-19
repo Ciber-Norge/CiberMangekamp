@@ -22,8 +22,8 @@
           = link_to event.title, event
 
     %h1 Leaderboard
-    - leaderboard = @season.generate_leaderboard_correct
-    - if leaderboard.empty?
+    - leaderboard = @season.generate_leaderboard
+    - if leaderboard[:events].empty?
       No results yet, for this season
     - else
       %table{:border => 1}
@@ -34,22 +34,25 @@
             - @season.events.each do | event |
               %td
                 = link_to event.title, event
-            %td Total Points
+            %td Score
         %tbody
           - counter = 1
-          - leaderboard.each do | key, value |
-            - next if value[:sex] == 'man'
+          - leaderboard[:participants][:women].each do | key, value |
             %tr
               %td
-                = value[:rank]
+                = counter
               %td
                 = value[:name]
               - @season.events.each do | event |
                 %td
-                  - event = value[:results][event.id]
-                  = event[:rank] if event
+                  - if value[:events][event.id]
+                    = value[:events][event.id][:score]
+                    (
+                    = value[:events][event.id][:rank]
+                    )
               %td
                 = value[:score]
+            - counter = counter + 1
       %br
       %table{:border => 1}
         %thead
@@ -59,19 +62,22 @@
             - @season.events.each do | event |
               %td
                 = link_to event.title, event
-            %td Total Points
+            %td Score
         %tbody
           - counter = 1
-          - leaderboard.each do | key, value |
-            - next if value[:sex] == 'woman'
+          - leaderboard[:participants][:men].each do | key, value |
             %tr
               %td
-                = value[:rank]
+                = counter
               %td
                 = value[:name]
               - @season.events.each do | event |
                 %td
-                  - event = value[:results][event.id]
-                  = event[:rank] if event
+                  - if value[:events][event.id]
+                    = value[:events][event.id][:score]
+                    (
+                    = value[:events][event.id][:rank]
+                    )
               %td
                 = value[:score]
+            - counter = counter + 1

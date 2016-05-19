@@ -5,4 +5,12 @@ class User < ActiveRecord::Base
   scope :retired, -> { where('retired = ?', false) }
   scope :men, -> { where(sex: 'man', retired: false) }
   scope :women, -> { where(sex: 'woman', retired: false) }
+
+  def man?
+    self.sex == 'man'
+  end
+
+  def woman?
+    not man?
+  end
 end

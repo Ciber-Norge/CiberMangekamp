@@ -1,92 +1,123 @@
 class Season < ActiveRecord::Base
   has_many :events
 
-  # TODO: move this to a helper method
-  def generate_leaderboard_correct
-    leaderboard = {}
+  def generate_leaderboard
+    events = {}
+    participants = {
+      :men => {},
+      :women => {}
+    }
 
-    # retrieve all results
-    events = Event.where("season_id = '#{self.id}'")
-    events.each do | event |
+    Event.where("season_id = '#{self.id}'").each do | event |
       # don't add events with no results
       next if event.results.empty?
 
-      participants = Participant.where('event_id = ?', event.id)
-      participants.each do | participant |
+      # store event
+      events[event.id] = {
+        :id => event.id,
+        :title => event.title,
+        :category_id => event.category_id,
+        :men => [],
+        :women => []
+      }
+      
+      # store participants
+      event.participants.each do | participant |
         user = User.find(participant.user_id)
-        next if user.retired
-        leaderboard[user.id] ||= {}
-        leaderboard[user.id][:name] = user.name
-        leaderboard[user.id][:sex] = user.sex
-        leaderboard[user.id][:results] ||= {}
-        leaderboard[user.id][:results][event.id] = {
-          :event_id => event.id,
-          :event_title => event.title,
+
+        temp_user = {
+          :id => user.id,
+          :name => user.name,
+          :sex => user.sex,
           :rank => participant.result.rank
         }
-      end
-    end
 
-    # if they have more then 8 events, remove the bad ones
-    # TODO
+        if user.man?
+          events[event.id][:men] << temp_user
+        else
+          events[event.id][:women] << temp_user
+        end
 
-    # if missing one of the main categories, add fake points
-    # TODO: Add categories to events...
+        # retired users are of no use
+        next if user.retired
 
-    # if less then 8, add fake points
-    leaderboard.each do | key, value |
-      size = value[:results].size
-      if size < 8
-        value[:results][0] = {
-          :event_id => 0,
-          :event_title => 'Missing events',
-          :rank => (8 - size) * 99
-        }
-      end
-    end
-
-    # sum all scores
-    leaderboard.each do | key, value |
-      value[:score] = value[:results].sum { |key, result| result[:rank] }
-    end
-
-    # calculate ranks
-    # TODO
-    leaderboard.each do | key, value |
-      value[:rank] = 0
-    end
-
-    # get users with this season
-    # get the best score for each category
-    ## if missing one, add one with last points
-    # get the rest of the best score
-    ## is missing some, add scores with last points
-    leaderboard.sort_by {|key, value| value[:score] }
-  end
-
-  def generate_leaderboard
-    leaderboard = {
-      :results => {},
-      :events => []
-    }
-    self.events.each do |event|
-      event.participants.each do | participant |
-        if participant.result
-          name = participant.user.name
-          leaderboard['results'][name] ||= {}
-          leaderboard['results'][name][event.title] = participant.result.rank
+        sex = user.man? ? :men : :women
+        if participants[sex][user.id]
+          participants[sex][user.id][:events][event.id] = {
+            :id => event.id,
+            :category_id => event.category_id,
+            :rank => participant.result.rank
+          }
+        else
+          participants[sex][user.id] = {
+            :name => user.name,
+            :sex => user.sex,
+            :score => 0,
+            :results => [],
+            :events => {}
+          }
+          participants[sex][user.id][:events][event.id] = {
+            :id => event.id,
+            :category_id => event.category_id,
+            :rank => participant.result.rank
+          }
         end
       end
+    end
 
-      unless event.participant.empty?
-        leaderboard['events'] << event.sport
+    # remove people with less then 8 events
+    participants.each do | sex, value |
+      value.delete_if {|id, participant| participant[:events].size < 8}
+    end
+
+    # remove participants that are not eligble for mangekjemper
+    events.each do | id, event |
+      event[:men].delete_if {|participant| not participants[:men].keys.include? participant[:id]}
+      event[:women].delete_if {|participant| not participants[:women].keys.include? participant[:id]}
+    end
+
+    # sort the participants for each event
+    events.each do | id, event |
+      event[:men].sort! {|p1, p2| p1[:rank] <=> p2[:rank]}
+      event[:women].sort! {|p1, p2| p1[:rank] <=> p2[:rank]}
+    end
+
+    # calculate their new rank
+    participants.each do | sex, value |
+      value.each do | id, participant |
+        events.each do | e_id, event |
+          index = 1
+          index_modifier = 0
+          last_rank = nil
+          event[sex].each do | p |            
+            if last_rank
+              if last_rank == p[:rank]
+                index_modifier += 1
+              else
+                index += 1
+              end
+            end
+
+            if p[:id] == id
+              participant[:results] << index + (last_rank == p[:rank] ? 0 : index_modifier)
+              participant[:events][e_id][:score] = index + (last_rank == p[:rank] ? 0 : index_modifier)
+              break
+            end
+            
+            last_rank = p[:rank]
+          end
+        end
+        participant[:results] = participant[:results].sort.slice(0, 8)
+        participant[:score] = participant[:results].sum
       end
     end
 
-    leaderboard['results'].each do | key, value|
-      value[:score] = value.map { |h| h[1] }.sum
-    end
+    participants[:men] = participants[:men].sort { | p1, p2 | p1[1][:score] <=> p2[1][:score] }
+    participants[:women] = participants[:women].sort { | p1, p2 | p1[1][:score] <=> p2[1][:score] }
 
-    leaderboard['results'] = leaderboard['results'].sort_by {|key, value| value[:score]}
+    return {
+      :participants => participants,
+      :events => events
+    }
   end
 end
