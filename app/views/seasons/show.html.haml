@@ -46,7 +46,7 @@
               - @season.events.each do | event |
                 %td
                   - if value[:events][event.id]
-                    = value[:events][event.id][:score]
+                    = value[:events][event.id][:new_rank]
                     (
                     = value[:events][event.id][:rank]
                     )
@@ -74,7 +74,7 @@
               - @season.events.each do | event |
                 %td
                   - if value[:events][event.id]
-                    = value[:events][event.id][:score]
+                    = value[:events][event.id][:new_rank]
                     (
                     = value[:events][event.id][:rank]
                     )

@@ -1,3 +1,4 @@
+# coding: utf-8
 class Season < ActiveRecord::Base
   has_many :events
 
@@ -37,9 +38,6 @@ class Season < ActiveRecord::Base
         else
           events[event.id][:women] << temp_user
         end
-
-        # retired users are of no use
-        next if user.retired
 
         sex = user.man? ? :men : :women
         if participants[sex][user.id]
@@ -99,19 +97,44 @@ class Season < ActiveRecord::Base
             end
 
             if p[:id] == id
-              participant[:results] << index + (last_rank == p[:rank] ? 0 : index_modifier)
-              participant[:events][e_id][:score] = index + (last_rank == p[:rank] ? 0 : index_modifier)
+              new_score = index + (last_rank == p[:rank] ? 0 : index_modifier)
+              participant[:events][e_id][:new_rank] = new_score
               break
             end
             
             last_rank = p[:rank]
           end
         end
-        participant[:results] = participant[:results].sort.slice(0, 8)
-        participant[:score] = participant[:results].sum
+
+        # check if category-rule needs to be applied
+        results = []
+        [1, 2, 3].each do | category_id |
+          best = []
+          participant[:events].each do | key, event |
+            if event[:category_id] == category_id
+              best << event[:new_rank]
+            end
+          end
+          if [1, 3].include?(category_id)
+            best = best.sort.slice(0, 3)
+          else
+            best = best.sort
+          end
+          results << best
+        end
+        best_results = [results[0].slice!(0), results[1].slice!(0), results[2].slice!(0)]
+        results = results.flatten.sort.slice(0, 5)
+        best_results.concat(results)
+        # adding points for each missing category-event
+        while best_results.length != 8 do
+          best_results << 16
+        end
+        participant[:results] = best_results
+        participant[:score] = best_results.sum
       end
     end
 
+    # sort based on new rank
     participants[:men] = participants[:men].sort { | p1, p2 | p1[1][:score] <=> p2[1][:score] }
     participants[:women] = participants[:women].sort { | p1, p2 | p1[1][:score] <=> p2[1][:score] }
 
