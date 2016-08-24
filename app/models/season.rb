@@ -8,6 +8,10 @@ class Season < ActiveRecord::Base
       :men => {},
       :women => {}
     }
+    mangekjempere = {
+      :men => {},
+      :women => {}
+    }
 
     Event.where("season_id = '#{self.id}'").each do | event |
       # don't add events with no results
@@ -63,15 +67,16 @@ class Season < ActiveRecord::Base
       end
     end
 
-    # remove people with less then 8 events
+    # find the mangekjempere
     participants.each do | sex, value |
-      value.delete_if {|id, participant| participant[:events].size < 8}
+      mangekjempere[sex] = value.select {|id, participant| participant[:events].size >= 8}
+      value.delete_if {|id, participant| participant[:events].size >= 8}
     end
 
     # remove participants that are not eligble for mangekjemper
     events.each do | id, event |
-      event[:men].delete_if {|participant| not participants[:men].keys.include? participant[:id]}
-      event[:women].delete_if {|participant| not participants[:women].keys.include? participant[:id]}
+      event[:men].delete_if {|participant| not mangekjempere[:men].keys.include? participant[:id]}
+      event[:women].delete_if {|participant| not mangekjempere[:women].keys.include? participant[:id]}
     end
 
     # sort the participants for each event
@@ -81,7 +86,7 @@ class Season < ActiveRecord::Base
     end
 
     # calculate their new rank
-    participants.each do | sex, value |
+    mangekjempere.each do | sex, value |
       value.each do | id, participant |
         events.each do | e_id, event |
           index = 1
@@ -135,11 +140,18 @@ class Season < ActiveRecord::Base
     end
 
     # sort based on new rank
-    participants[:men] = participants[:men].sort { | p1, p2 | p1[1][:score] <=> p2[1][:score] }
-    participants[:women] = participants[:women].sort { | p1, p2 | p1[1][:score] <=> p2[1][:score] }
+    mangekjempere[:men] = mangekjempere[:men].sort_by{ |p| p[1][:score]}
+    mangekjempere[:women] = mangekjempere[:women].sort_by{ |p| p[1][:score]}
+
+    # sort out the rest
+    participants[:men] = participants[:men].sort_by{|p| [p[1][:events].length, p[1][:events].map{|key,value|value[:rank]}.reduce(:+) * -1]}.reverse
+    participants[:women] = participants[:women].sort_by{|p| [p[1][:events].length, p[1][:events].map{|key,value|value[:rank]}.reduce(:+) * -1]}.reverse
 
     return {
-      :participants => participants,
+      :participants => {
+        :men => mangekjempere[:men].concat(participants[:men]),
+        :women => mangekjempere[:women].concat(participants[:women])
+      },
       :events => events
     }
   end
