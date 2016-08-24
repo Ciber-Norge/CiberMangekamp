@@ -9,12 +9,13 @@
 
     %p
       = link_to 'Tilbake', root_path
-      |
-      = link_to 'Edit season', edit_season_path(@season.id)
-      |
-      = link_to 'Delete season', { action: :destroy, id: @season }, method: :delete, data: { confirm: 'Are you sure?' }
-      |
-      = link_to 'Add event', new_season_event_path(@season.id)
+      - if logged_in?
+        |
+        = link_to 'Edit season', edit_season_path(@season.id)
+        |
+        = link_to 'Delete season', { action: :destroy, id: @season }, method: :delete, data: { confirm: 'Are you sure?' }
+        |
+        = link_to 'Add event', new_season_event_path(@season.id)
 
     %ul
       - @season.events.each do | event |

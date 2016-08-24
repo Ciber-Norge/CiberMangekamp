@@ -5,8 +5,9 @@
 
   %body
     %h1 Hello World from Season index
-    = link_to "New season", new_season_path
-    |
+    - if logged_in?
+      = link_to "New season", new_season_path
+      |
     = link_to "Users", users_path
     %ul
       - @seasons.each do | season |

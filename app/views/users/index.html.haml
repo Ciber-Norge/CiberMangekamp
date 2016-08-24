@@ -8,8 +8,10 @@
 
     %p
       = link_to 'Tilbake', root_path
-      |
-      = link_to 'Add user', new_user_path
+      = current_user
+      - if logged_in?
+        |
+        = link_to 'Add user', new_user_path
 
     %table{:border => 1}
       %thead
@@ -22,8 +24,9 @@
             Sex
           %td
             Retired
-          %td
-            Action
+          - if logged_in?
+            %td
+              Action
       %tbody
         - @users.each do | user |
           %tr
@@ -35,5 +38,6 @@
               = user.sex
             %td
               = user.retired
-            %td
-              = link_to 'Edit', edit_user_path(user)
+            - if logged_in?
+              %td
+                = link_to 'Edit', edit_user_path(user)
