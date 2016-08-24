@@ -1,4 +1,5 @@
 class ResultsController < ApplicationController
+  before_filter :authorize
   before_filter :find_event, only: [:mass_new, :mass_create, :mass_edit, :mass_update, :destroy, :edit, :update]
   before_filter :find_result, only: [:edit, :update]
 

@@ -1,4 +1,5 @@
 class ResultController < ApplicationController
+  before_filter :authorize
   before_filter :find_event, only: [:destroy, :edit, :update]
   before_filter :find_result, only: [:destroy, :edit, :update]
 
