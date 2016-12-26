@@ -1,122 +1,116 @@
-!!!
-%haml
-  %head
-    %title Ciber Mangekamp
+%h1
+  = @event.title
+%h3
+  Date:
+  = @event.date
+  %br
+  Category:
+  = @event.category.title
 
-  %body
-    %h1
-      = @event.title
-    %h3
-      Date:
-      = @event.date
-      %br
-      Category:
-      = @event.category.title
-
-    %p
-      = link_to 'Tilbake', season_path(@event.season_id)
-      - if logged_in?
-        |
-        = link_to 'Edit event', edit_event_path(@event)
-        |
-        = link_to 'Delete event', { action: :destroy, id: @event }, method: :delete, data: { confirm: 'Are you sure?' }
-        |
-        - if @event.results.empty?
-          = link_to 'Mass add results', mass_new_event_results_path(@event)
-        - else
-          = link_to 'Mass edit results', mass_edit_event_results_path(@event)
-        |
-        = link_to 'Mass add participants', mass_add_event_participants_path(@event)
-
-    - if logged_in?
-      %h1 Add participant
-      Currently only mass add works
-
-      %h1 Participants
-      - if @event.participants.empty?
-        No participants yet
-      - else
-        %table{:border => 1}
-          %thead
-            %tr
-              %td
-                Name
-              %td
-                Action
-          %tbody
-          - @event.participants.men.each do | participant |
-            %tr
-              %td
-                = participant.user.name
-              %td
-                = link_to "remove", event_participant_path(@event.id, participant.id), :method => 'delete', data: { confirm: "You sure?" }
-
-        %br
-        %table{:border => 1}
-          %thead
-            %tr
-              %td
-                Name
-              %td
-                Action
-          %tbody
-          - @event.participants.women.each do | participant |
-            %tr
-              %td
-                = participant.user.name
-              %td
-                = link_to "remove", event_participant_path(@event.id, participant.id), :method => 'delete', data: { confirm: "You sure?" }
-
-    %h1 Results
+%p
+  = link_to 'Tilbake', season_path(@event.season_id)
+  - if logged_in?
+    |
+    = link_to 'Edit event', edit_event_path(@event)
+    |
+    = link_to 'Delete event', { action: :destroy, id: @event }, method: :delete, data: { confirm: 'Are you sure?' }
+    |
     - if @event.results.empty?
-      No results yet
+      = link_to 'Mass add results', mass_new_event_results_path(@event)
     - else
-      %table{:border => 1}
-        %thead
-          %tr
-            %td
-              Name
-            %td
-              Score
-            %td
-              Rank
-            - if logged_in?
-              %td
-                Action
-        %tbody
-        - @event.results.men.each do | result |
-          %tr
-            %td
-              = result.participant.user.name
-            %td
-              = result.score
-            %td
-              = result.rank
-            - if logged_in?
-              %td
-                = link_to 'edit', edit_event_result_path(result.event_id, result.id)
-      %br
-      %table{:border => 1}
-        %thead
-          %tr
-            %td
-              Name
-            %td
-              Score
-            %td
-              Rank
-            - if logged_in?
-              %td
-                Action
-        %tbody
-        - @event.results.women.each do | result |
-          %tr
-            %td
-              = result.participant.user.name
-            %td
-              = result.score
-            %td
-              = result.rank
-            - if logged_in?
-              %td
-                = link_to 'edit', edit_event_result_path(result.event_id, result.id)
+      = link_to 'Mass edit results', mass_edit_event_results_path(@event)
+    |
+    = link_to 'Mass add participants', mass_add_event_participants_path(@event)
+
+- if logged_in?
+  %h1 Add participant
+  Currently only mass add works
+
+  %h1 Participants
+  - if @event.participants.empty?
+    No participants yet
+  - else
+    %table{:border => 1}
+      %thead
+        %tr
+          %td
+            Name
+          %td
+            Action
+      %tbody
+      - @event.participants.men.each do | participant |
+        %tr
+          %td
+            = participant.user.name
+          %td
+            = link_to "remove", event_participant_path(@event.id, participant.id), :method => 'delete', data: { confirm: "You sure?" }
+
+    %br
+    %table{:border => 1}
+      %thead
+        %tr
+          %td
+            Name
+          %td
+            Action
+      %tbody
+      - @event.participants.women.each do | participant |
+        %tr
+          %td
+            = participant.user.name
+          %td
+            = link_to "remove", event_participant_path(@event.id, participant.id), :method => 'delete', data: { confirm: "You sure?" }
+
+%h1 Results
+- if @event.results.empty?
+  No results yet
+- else
+  %table{:border => 1}
+    %thead
+      %tr
+        %td
+          Name
+        %td
+          Score
+        %td
+          Rank
+        - if logged_in?
+          %td
+            Action
+    %tbody
+    - @event.results.men.each do | result |
+      %tr
+        %td
+          = result.participant.user.name
+        %td
+          = result.score
+        %td
+          = result.rank
+        - if logged_in?
+          %td
+            = link_to 'edit', edit_event_result_path(result.event_id, result.id)
+  %br
+  %table{:border => 1}
+    %thead
+      %tr
+        %td
+          Name
+        %td
+          Score
+        %td
+          Rank
+        - if logged_in?
+          %td
+            Action
+    %tbody
+    - @event.results.women.each do | result |
+      %tr
+        %td
+          = result.participant.user.name
+        %td
+          = result.score
+        %td
+          = result.rank
+        - if logged_in?
+          %td
+            = link_to 'edit', edit_event_result_path(result.event_id, result.id)

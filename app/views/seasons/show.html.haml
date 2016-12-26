@@ -1,104 +1,98 @@
-!!!
-%haml
-  %head
-    %title Ciber Mangekamp
+%h1
+  = @season.title
 
-  %body
-    %h1
-      = @season.title
+%p
+  = link_to 'Tilbake', root_path
+  - if logged_in?
+    |
+    = link_to 'Edit season', edit_season_path(@season.id)
+    |
+    = link_to 'Delete season', { action: :destroy, id: @season }, method: :delete, data: { confirm: 'Are you sure?' }
+    |
+    = link_to 'Add event', new_season_event_path(@season.id)
 
-    %p
-      = link_to 'Tilbake', root_path
-      - if logged_in?
-        |
-        = link_to 'Edit season', edit_season_path(@season.id)
-        |
-        = link_to 'Delete season', { action: :destroy, id: @season }, method: :delete, data: { confirm: 'Are you sure?' }
-        |
-        = link_to 'Add event', new_season_event_path(@season.id)
+%ul
+  - @season.events.each do | event |
+    %li
+      = link_to event.title, event
 
-    %ul
-      - @season.events.each do | event |
-        %li
-          = link_to event.title, event
-
-    %h1 Leaderboard
-    - leaderboard = @season.generate_leaderboard
-    - if leaderboard[:events].empty?
-      No results yet, for this season
-    - else
-      %table{:border => 1}
-        %thead
-          %tr
-            %td Rank
-            %td Name
-            - @season.events.each do | event |
-              %td
-                = link_to event.title, event
-            %td Score
-        %tbody
-          - counter = 1
-          - leaderboard[:participants][:women].each do | key, value |
-            - simple_score = 0
-            %tr
-              %td
-                = counter
-              %td
-                = value[:name]
-              - @season.events.each do | event |
-                %td
-                  - if value[:events][event.id]
-                    - new_rank = value[:events][event.id][:new_rank]
-                    - if new_rank
-                      = value[:events][event.id][:new_rank]
-                    - else
-                      = '-'
-                      - simple_score += value[:events][event.id][:rank]
-                    (
-                    = value[:events][event.id][:rank]
-                    )
-              %td
-                -if value[:score] > 0
-                  = value[:score]
+%h1 Leaderboard
+- leaderboard = @season.generate_leaderboard
+- if leaderboard[:events].empty?
+  No results yet, for this season
+- else
+  %table{:border => 1}
+    %thead
+      %tr
+        %td Rank
+        %td Name
+        - @season.events.each do | event |
+          %td
+            = link_to event.title, event
+        %td Score
+    %tbody
+      - counter = 1
+      - leaderboard[:participants][:women].each do | key, value |
+        - simple_score = 0
+        %tr
+          %td
+            = counter
+          %td
+            = value[:name]
+          - @season.events.each do | event |
+            %td
+              - if value[:events][event.id]
+                - new_rank = value[:events][event.id][:new_rank]
+                - if new_rank
+                  = value[:events][event.id][:new_rank]
                 - else
-                  - simple_score += (8 - value[:events].length) * 8
-                  = simple_score
-            - counter = counter + 1
-      %br
-      %table{:border => 1}
-        %thead
-          %tr
-            %td Rank
-            %td Name
-            - @season.events.each do | event |
-              %td
-                = link_to event.title, event
-            %td Score
-        %tbody
-          - counter = 1
-          - leaderboard[:participants][:men].each do | key, value |
-            - simple_score = 0
-            %tr
-              %td
-                = counter
-              %td
-                = value[:name]
-              - @season.events.each do | event |
-                %td
-                  - if value[:events][event.id]
-                    - new_rank = value[:events][event.id][:new_rank]
-                    - if new_rank
-                      = value[:events][event.id][:new_rank]
-                    - else
-                      = '-'
-                      - simple_score += value[:events][event.id][:rank]
-                    (
-                    = value[:events][event.id][:rank]
-                    )
-              %td
-                -if value[:score] > 0
-                  = value[:score]
+                  = '-'
+                  - simple_score += value[:events][event.id][:rank]
+                (
+                = value[:events][event.id][:rank]
+                )
+          %td
+            -if value[:score] > 0
+              = value[:score]
+            - else
+              - simple_score += (8 - value[:events].length) * 8
+              = simple_score
+        - counter = counter + 1
+  %br
+  %table{:border => 1}
+    %thead
+      %tr
+        %td Rank
+        %td Name
+        - @season.events.each do | event |
+          %td
+            = link_to event.title, event
+        %td Score
+    %tbody
+      - counter = 1
+      - leaderboard[:participants][:men].each do | key, value |
+        - simple_score = 0
+        %tr
+          %td
+            = counter
+          %td
+            = value[:name]
+          - @season.events.each do | event |
+            %td
+              - if value[:events][event.id]
+                - new_rank = value[:events][event.id][:new_rank]
+                - if new_rank
+                  = value[:events][event.id][:new_rank]
                 - else
-                  - simple_score += (8 - value[:events].length) * 16
-                  = simple_score
-            - counter = counter + 1
+                  = '-'
+                  - simple_score += value[:events][event.id][:rank]
+                (
+                = value[:events][event.id][:rank]
+                )
+          %td
+            -if value[:score] > 0
+              = value[:score]
+            - else
+              - simple_score += (8 - value[:events].length) * 16
+              = simple_score
+        - counter = counter + 1

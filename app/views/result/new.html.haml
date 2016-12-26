@@ -1,14 +1,8 @@
-!!!
-%haml
-  %head
-    %title Ciber Mangekamp
-
-  %body
-    %h1 Add results
-    = form_tag do
-      - @event.participants.each do | participant |
-        = label_tag(participant.user_id, participant.user.name)
-        = text_field_tag("participant.user_id[score]")
-        = text_field_tag("participant.user_id[rank]")
-        %br
-      = submit_tag
+%h1 Add results
+= form_tag do
+  - @event.participants.each do | participant |
+    = label_tag(participant.user_id, participant.user.name)
+    = text_field_tag("participant.user_id[score]")
+    = text_field_tag("participant.user_id[rank]")
+    %br
+  = submit_tag

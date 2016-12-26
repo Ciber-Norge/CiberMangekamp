@@ -1,39 +1,33 @@
-!!!
-%haml
-  %head
-    %title Ciber Mangekamp
+%h1
+  Mass add results
 
-  %body
-    %h1
-      Mass add results
-
-    = form_tag(action: 'mass_create') do
-      %div
-        %table
-          %thead
-            %tr
-              %td
-              %td
-          %tbody
-            - User.men.each do | user |
-              %tr
-                %td
-                  - checked = @participants.size > 0 ? @participants.find_by_user_id(user.id) : false
-                  = check_box_tag("participants[#{user.id}]", 'participate', checked)
-                %td
-                  = label_tag("participants[#{user.id}]", user.name)
-            %tr
-              %td
-              %td
-                %br
-            - User.women.each do | user |
-              %tr
-                %td
-                  - checked = @participants.size > 0 ? @participants.find_by_user_id(user.id) : false
-                  = check_box_tag("participants[#{user.id}]", 'participate', checked)
-                %td
-                  = label_tag("participants[#{user.id}]", user.name)
-      = submit_tag
-    %br  
-    = link_to 'Tilbake', event_path(@event)
+= form_tag(action: 'mass_create') do
+  %div
+    %table
+      %thead
+        %tr
+          %td
+          %td
+      %tbody
+        - User.men.each do | user |
+          %tr
+            %td
+              - checked = @participants.size > 0 ? @participants.find_by_user_id(user.id) : false
+              = check_box_tag("participants[#{user.id}]", 'participate', checked)
+            %td
+              = label_tag("participants[#{user.id}]", user.name)
+        %tr
+          %td
+          %td
+            %br
+        - User.women.each do | user |
+          %tr
+            %td
+              - checked = @participants.size > 0 ? @participants.find_by_user_id(user.id) : false
+              = check_box_tag("participants[#{user.id}]", 'participate', checked)
+            %td
+              = label_tag("participants[#{user.id}]", user.name)
+  = submit_tag
+%br  
+= link_to 'Tilbake', event_path(@event)
 

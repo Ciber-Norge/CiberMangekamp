@@ -1,11 +1,5 @@
-!!!
-%haml
-  %head
-    %title Ciber Mangekamp
+%h1 Edit new event
+= render 'form'
 
-  %body
-    %h1 Edit new event
-    = render 'form'
-
-    %br
-    = link_to 'Tilbake', @event
+%br
+= link_to 'Tilbake', @event

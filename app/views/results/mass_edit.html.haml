@@ -1,34 +1,28 @@
-!!!
-%haml
-  %head
-    %title Ciber Mangekamp
+%h1
+  Mass edit results
 
-  %body
-    %h1
-      Mass edit results
-      
-    = form_tag(action: 'mass_update') do
-      - @event.participants.men.each do | participant |
-        - result = @event.results.find_by_participant_id(participant.id)
-        = label_tag(participant.id, participant.user.name)
-        - if result
-          = text_field_tag("participants[#{participant.id}[score]]", result.score, { placeholder: 'Score' })
-          = text_field_tag("participants[#{participant.id}[rank]]", result.rank, { placeholder: 'Rank'})
-        - else
-          = text_field_tag("participants[#{participant.id}[score]]", nil, { placeholder: 'Score' })
-          = text_field_tag("participants[#{participant.id}[rank]]", nil, { placeholder: 'Rank' })
-        %br
-      %br
-      - @event.participants.women.each do | participant |
-        - result = @event.results.find_by_participant_id(participant.id)
-        = label_tag(participant.id, participant.user.name)
-        - if result
-          = text_field_tag("participants[#{participant.id}[score]]", result.score, { placeholder: 'Score' })
-          = text_field_tag("participants[#{participant.id}[rank]]", result.rank, { placeholder: 'Rank'})
-        - else
-          = text_field_tag("participants[#{participant.id}[score]]", nil, { placeholder: 'Score' })
-          = text_field_tag("participants[#{participant.id}[rank]]", nil, { placeholder: 'Rank' })
-        %br
-      = submit_tag
-    %br  
-    = link_to 'Tilbake', event_path(@event)
+= form_tag(action: 'mass_update') do
+  - @event.participants.men.each do | participant |
+    - result = @event.results.find_by_participant_id(participant.id)
+    = label_tag(participant.id, participant.user.name)
+    - if result
+      = text_field_tag("participants[#{participant.id}[score]]", result.score, { placeholder: 'Score' })
+      = text_field_tag("participants[#{participant.id}[rank]]", result.rank, { placeholder: 'Rank'})
+    - else
+      = text_field_tag("participants[#{participant.id}[score]]", nil, { placeholder: 'Score' })
+      = text_field_tag("participants[#{participant.id}[rank]]", nil, { placeholder: 'Rank' })
+    %br
+  %br
+  - @event.participants.women.each do | participant |
+    - result = @event.results.find_by_participant_id(participant.id)
+    = label_tag(participant.id, participant.user.name)
+    - if result
+      = text_field_tag("participants[#{participant.id}[score]]", result.score, { placeholder: 'Score' })
+      = text_field_tag("participants[#{participant.id}[rank]]", result.rank, { placeholder: 'Rank'})
+    - else
+      = text_field_tag("participants[#{participant.id}[score]]", nil, { placeholder: 'Score' })
+      = text_field_tag("participants[#{participant.id}[rank]]", nil, { placeholder: 'Rank' })
+    %br
+  = submit_tag
+%br  
+= link_to 'Tilbake', event_path(@event)

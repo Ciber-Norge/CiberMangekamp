@@ -1,43 +1,36 @@
-!!!
-%haml
-  %head
-    %title Ciber Mangekamp
+%h1 Users
 
-  %body
-    %h1 Users
+%p
+  = link_to 'Tilbake', root_path
+  - if logged_in?
+    |
+    = link_to 'Add user', new_user_path
 
-    %p
-      = link_to 'Tilbake', root_path
-      = current_user
+%table{:border => 1}
+  %thead
+    %tr
+      %td
+        Name
+      %td
+        E-mail
+      %td
+        Sex
+      %td
+        Retired
       - if logged_in?
-        |
-        = link_to 'Add user', new_user_path
-
-    %table{:border => 1}
-      %thead
-        %tr
+        %td
+          Action
+  %tbody
+    - @users.each do | user |
+      %tr
+        %td
+          = user.name
+        %td
+          = user.email
+        %td
+          = user.sex
+        %td
+          = user.retired
+        - if logged_in?
           %td
-            Name
-          %td
-            E-mail
-          %td
-            Sex
-          %td
-            Retired
-          - if logged_in?
-            %td
-              Action
-      %tbody
-        - @users.each do | user |
-          %tr
-            %td
-              = user.name
-            %td
-              = user.email
-            %td
-              = user.sex
-            %td
-              = user.retired
-            - if logged_in?
-              %td
-                = link_to 'Edit', edit_user_path(user)
+            = link_to 'Edit', edit_user_path(user)

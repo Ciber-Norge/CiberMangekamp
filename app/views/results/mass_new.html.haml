@@ -1,24 +1,18 @@
-!!!
-%haml
-  %head
-    %title Ciber Mangekamp
+%h1
+  Mass add results
 
-  %body
-    %h1
-      Mass add results
-      
-    = form_tag(action: 'mass_create') do
-      - @event.participants.men.each do | participant |
-        = label_tag(participant.id, participant.user.name)
-        = text_field_tag("participants[#{participant.id}[score]]", nil, { placeholder: 'Score' })
-        = text_field_tag("participants[#{participant.id}[rank]]", nil, { placeholder: 'Rank' })
-        %br
-      %br
-      - @event.participants.women.each do | participant |
-        = label_tag(participant.id, participant.user.name)
-        = text_field_tag("participants[#{participant.id}[score]]", nil, { placeholder: 'Score' })
-        = text_field_tag("participants[#{participant.id}[rank]]", nil, { placeholder: 'Rank' })
-        %br
-      = submit_tag
-    %br  
-    = link_to 'Tilbake', event_path(@event)
+= form_tag(action: 'mass_create') do
+  - @event.participants.men.each do | participant |
+    = label_tag(participant.id, participant.user.name)
+    = text_field_tag("participants[#{participant.id}[score]]", nil, { placeholder: 'Score' })
+    = text_field_tag("participants[#{participant.id}[rank]]", nil, { placeholder: 'Rank' })
+    %br
+  %br
+  - @event.participants.women.each do | participant |
+    = label_tag(participant.id, participant.user.name)
+    = text_field_tag("participants[#{participant.id}[score]]", nil, { placeholder: 'Score' })
+    = text_field_tag("participants[#{participant.id}[rank]]", nil, { placeholder: 'Rank' })
+    %br
+  = submit_tag
+%br  
+= link_to 'Tilbake', event_path(@event)
