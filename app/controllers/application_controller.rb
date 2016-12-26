@@ -4,15 +4,15 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   helper_method :current_user, :logged_in?
 
-  def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  def current_admin
+    @current_admin ||= User.find(session[:admin_id]) if session[:admin_id]
   end
 
   def authorize
-    redirect_to '/login' unless current_user
+    redirect_to '/login' unless current_admin
   end
 
   def logged_in?
-    current_user != nil
+    current_admin != nil
   end
 end

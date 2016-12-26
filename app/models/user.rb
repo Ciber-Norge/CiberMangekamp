@@ -1,6 +1,4 @@
 class User < ActiveRecord::Base
-  has_secure_password
-
   has_many :participants
 
   default_scope -> { order('name ASC') }

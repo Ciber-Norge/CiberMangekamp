@@ -1,18 +1,12 @@
-!!!
-%haml
-  %head
-    %title Ciber Mangekamp
+%h1 Login
+= link_to 'Home', root_path
 
-  %body
-    %h1 Login
-    = link_to 'Home', root_path
+= form_tag '/login' do
+  = label_tag :email, 'E-mail:'
+  = text_field_tag :email
+  %br
+  = label_tag :password, 'Password:'
+  = password_field_tag :password
+  %br
+  = submit_tag "Log in"
 
-    = form_tag '/login' do
-      = label_tag :email, 'E-mail:'
-      = text_field_tag :email
-      %br
-      = label_tag :password, 'Password:'
-      = password_field_tag :password
-      %br
-      = submit_tag "Log in"
-  
