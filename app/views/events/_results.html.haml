@@ -1,0 +1,19 @@
+%table{:border => 1}
+  %thead
+    %tr
+      %td
+        Name
+      %td
+        Score
+      %td
+        Rank
+  %tbody
+  - participants.each do | participant |
+    %tr
+      %td
+        = label_tag(participant.id, participant.user.name)
+      %td
+        = text_field_tag("participants[#{participant.id}[score]]", participant.score, { placeholder: 'Score' })
+      %td
+        = text_field_tag("participants[#{participant.id}[rank]]", participant.rank, { placeholder: 'Rank'})
+    %br

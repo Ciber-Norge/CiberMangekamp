@@ -1,4 +1,4 @@
-= form_for [@event, @result] do |f|
+= form_for [@event, @participant], url: {action: 'update_result'}  do |f|
   = f.label :score
   = f.text_field :score
   %br

@@ -3,6 +3,7 @@ class Season < ActiveRecord::Base
   has_many :events
 
   def generate_leaderboard
+    users = User.all
     events = {}
     participants = {
       :men => {},
@@ -14,8 +15,8 @@ class Season < ActiveRecord::Base
     }
 
     Event.where("season_id = '#{self.id}'").each do | event |
-      # don't add events with no results
-      next if event.results.empty?
+      # don't add events with no participants
+      next if event.participants.empty?
 
       # store event
       events[event.id] = {
@@ -28,13 +29,14 @@ class Season < ActiveRecord::Base
       
       # store participants
       event.participants.each do | participant |
-        user = User.find(participant.user_id)
+        next if participant.rank == 0 # skip participants without rank
+        user = users.find(participant.user_id)
 
         temp_user = {
           :id => user.id,
           :name => user.name,
           :sex => user.sex,
-          :rank => participant.result.rank
+          :rank => participant.rank
         }
 
         if user.man?
@@ -48,7 +50,7 @@ class Season < ActiveRecord::Base
           participants[sex][user.id][:events][event.id] = {
             :id => event.id,
             :category_id => event.category_id,
-            :rank => participant.result.rank
+            :rank => participant.rank
           }
         else
           participants[sex][user.id] = {
@@ -61,7 +63,7 @@ class Season < ActiveRecord::Base
           participants[sex][user.id][:events][event.id] = {
             :id => event.id,
             :category_id => event.category_id,
-            :rank => participant.result.rank
+            :rank => participant.rank
           }
         end
       end

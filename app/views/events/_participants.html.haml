@@ -1,0 +1,28 @@
+%table{:border => 1}
+  %thead
+    %tr
+      %td
+        Name
+      %td
+        Score
+      %td
+        Rank
+      - if logged_in?
+        %td
+          Edit
+        %td
+          Action
+  %tbody
+  - participants.each do | participant |
+    %tr
+      %td
+        = participant.user.name
+      %td
+        = participant.score
+      %td
+        = participant.rank
+      - if logged_in?
+        %td
+          = link_to 'edit', edit_result_event_path(participant.event_id, participant.id)
+        %td
+          = link_to "remove", delete_participant_from_event_path(@event.id, participant.id), :method => 'delete', data: { confirm: "You sure?" }

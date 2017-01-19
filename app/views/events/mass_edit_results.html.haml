@@ -1,0 +1,11 @@
+%h1
+  Mass edit results
+
+= form_tag(action: 'mass_update_results') do
+  = render :partial => 'results', :locals => {:participants => @event.participants.men}
+  %br
+  = render :partial => 'results', :locals => {:participants => @event.participants.women}
+  %br
+  = submit_tag
+%br
+= link_to 'Tilbake', event_path(@event)
