@@ -5,8 +5,8 @@
       %td Name
       %td #events
       - @season.events.each do | event |
-        %td
-          = link_to event.title, event
+        %td{:style => "background: #{event.category.color};"}
+          = link_to event.title, event, :style => 'text-decoration: none; color: white;'
       %td Score
   %tbody
     - counter = 1

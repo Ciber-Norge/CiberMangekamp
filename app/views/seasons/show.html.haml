@@ -24,3 +24,10 @@
   = render :partial => 'leaderboard', :locals => {:leaderboard => leaderboard[:participants][:women]}
   %br
   = render :partial => 'leaderboard', :locals => {:leaderboard => leaderboard[:participants][:men]}
+%br
+%table{:border => 1}
+  %tbody
+    %tr
+      - Category.all.each do | category |
+        %td{:style => "background: #{category.color};"}
+          = category.title
