@@ -6,6 +6,12 @@
   %br
   Category:
   = @event.category.title
+  %br
+  Participants:
+  = @event.participants.men.size
+  men and
+  = @event.participants.women.size
+  women
 
 %p
   = link_to 'Tilbake', season_path(@event.season_id)

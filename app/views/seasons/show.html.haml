@@ -1,6 +1,16 @@
 %h1
   = @season.title
 
+%h3
+  Events:
+  = @season.events.size
+  %br
+  Participants:
+  = Participant.men.where(event_id: @season.events.select(:id)).distinct.count('user_id')
+  men and
+  = Participant.women.where(event_id: @season.events.select(:id)).distinct.count('user_id')
+  women
+
 %p
   = link_to 'Tilbake', root_path
   - if logged_in?
