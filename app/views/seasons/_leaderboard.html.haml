@@ -1,0 +1,40 @@
+%table{:border => 1}
+  %thead
+    %tr
+      %td Rank
+      %td Name
+      %td #events
+      - @season.events.each do | event |
+        %td
+          = link_to event.title, event
+      %td Score
+  %tbody
+    - counter = 1
+    - leaderboard.each do | key, value |
+      - simple_score = 0
+      %tr
+        %td
+          = counter
+        %td
+          = value[:name]
+        %td
+          = value[:events].size
+        - @season.events.each do | event |
+          %td
+            - if value[:events][event.id]
+              - new_rank = value[:events][event.id][:new_rank]
+              - if new_rank
+                = value[:events][event.id][:new_rank]
+              - else
+                = '-'
+                - simple_score += value[:events][event.id][:rank]
+              (
+              = value[:events][event.id][:rank]
+              )
+        %td
+          -if value[:score] > 0
+            = value[:score]
+          - else
+            - simple_score += (8 - value[:events].length) * 8
+            = simple_score
+      - counter = counter + 1
