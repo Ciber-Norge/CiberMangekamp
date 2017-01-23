@@ -39,5 +39,5 @@
   %tbody
     %tr
       - Category.all.each do | category |
-        %td{:style => "background: #{category.color};"}
+        %td{:style => "background: #{category.color}; color: white;"}
           = category.title
