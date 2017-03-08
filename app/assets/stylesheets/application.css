@@ -14,3 +14,119 @@
  *= require_tree .
  *= require_self
  */
+body {
+    margin: 0;
+}
+.wrapper {
+
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: #111;
+}
+table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table td, table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+table tr:nth-child(even){background-color: #f2f2f2;}
+
+table tr:hover {background-color: #ddd;}
+
+table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+}
+#aboutlink {
+    float:right;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:active {
+    text-decoration: underline;
+}
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.leaderboard {
+    width: 100%;
+}
+.events {
+    color: white;
+}
+.season-info {
+    display: flex;
+    width: 50%;
+}
+.event-types {
+    width: 25%;
+}
+.gold{
+    border-radius: 15px;
+    padding: 5px 10px;
+    background: #C98910;
+    font-weight: bold;
+    font-size: 18px;
+    color: white;
+}
+.silver{
+    border-radius: 15px;
+    padding: 5px 10px;
+    background: #A8A8A8;
+    font-weight: bold;
+    font-size: 18px;
+    color: white;
+}
+.bronze{
+    border-radius: 15px;
+    padding: 5px 10px;
+    background: #965A38;
+    font-weight: bold;
+    font-size: 18px;
+    color: white;
+}
+.number{
+    padding: 5px 10px;
+    font-weight: bold;
+    font-size: 18px;
+}

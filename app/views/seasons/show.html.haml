@@ -1,43 +1,61 @@
-%h1
-  = @season.title
-
-%h3
-  Events:
-  = @season.events.size
-  %br
-  Participants:
-  = Participant.men.where(event_id: @season.events.select(:id)).distinct.count('user_id')
-  men and
-  = Participant.women.where(event_id: @season.events.select(:id)).distinct.count('user_id')
-  women
-
-%p
-  = link_to 'Tilbake', root_path
-  - if logged_in?
-    |
-    = link_to 'Edit season', edit_season_path(@season.id)
-    |
-    = link_to 'Delete season', { action: :destroy, id: @season }, method: :delete, data: { confirm: 'Are you sure?' }
-    |
-    = link_to 'Add event', new_season_event_path(@season.id)
-
 %ul
-  - @season.events.each do | event |
-    %li
-      = link_to event.title, event
+  %li
+    = link_to 'Home', root_path
+  %li
+    = link_to "New season", new_season_path
+  %li
+    = link_to "Users", users_path
+  %li#aboutlink
+    = link_to "About", "/about"
+%ul
+%div.wrapper
+  %div.season-info
+    %table
+      %tbody
+        %tr          
+          %th
+            Participants:
+          %td        
+            = Participant.men.where(event_id: @season.events.select(:id)).distinct.count('user_id')
+            men and
+            = Participant.women.where(event_id: @season.events.select(:id)).distinct.count('user_id')
+            women
+        %tr
+          %th
+            Season:
+          %td
+            = @season.title
+        %tr
+          %th
+            Events:
+          %td
+            = @season.events.size
+            %div.events
+              - @season.events.each do | event |
+                %td
+                  = link_to event.title, event                    
+  %p
+    - if logged_in?
+      |
+      = link_to 'Edit season', edit_season_path(@season.id)
+      |
+      = link_to 'Delete season', { action: :destroy, id: @season }, method: :delete, data: { confirm: 'Are you sure?' }
+      |
+      = link_to 'Add event', new_season_event_path(@season.id)
+      
+  %div.container
+    %div.leaderboard
+      - leaderboard = @season.generate_leaderboard
+      - if leaderboard[:events].empty?
+        No results yet, for this season
+      - else
+        %table
+          %tbody
+            - Category.all.each do | category |
+              %tr        
+                %td{:style => "background: #{category.color}; color: white;"}
+                  = category.title 
+        = render :partial => 'leaderboard', :locals => {:leaderboard => leaderboard[:participants][:women]}
+        %br
+        = render :partial => 'leaderboard', :locals => {:leaderboard => leaderboard[:participants][:men]}
 
-%h1 Leaderboard
-- leaderboard = @season.generate_leaderboard
-- if leaderboard[:events].empty?
-  No results yet, for this season
-- else
-  = render :partial => 'leaderboard', :locals => {:leaderboard => leaderboard[:participants][:women]}
-  %br
-  = render :partial => 'leaderboard', :locals => {:leaderboard => leaderboard[:participants][:men]}
-%br
-%table{:border => 1}
-  %tbody
-    %tr
-      - Category.all.each do | category |
-        %td{:style => "background: #{category.color}; color: white;"}
-          = category.title
