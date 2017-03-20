@@ -1,18 +1,15 @@
-%ul
-  %li
-    - if logged_in?
+%h1 Hello World from Season index
+- if logged_in?
   = link_to "New season", new_season_path
   |
 = link_to "Users", users_path
 - unless logged_in?
   |
   = link_to "Log in", login_path
-  %li
-    = link_to "Users", users_path
+%ul
   - @seasons.each do | season |
     %li
       = link_to season.title, season_path(season.id)
-%ul
 
 :markdown
   ## Mangekampen
