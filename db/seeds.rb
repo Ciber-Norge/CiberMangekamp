@@ -7,6 +7,6 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-Category.find_or_create_by(title: 'Kondisjon', color: '#56A3A6')
-Category.find_or_create_by(title: 'Teknikk', color: '#6B0504')
-Category.find_or_create_by(title: 'Balløvelser', color: '#A3320B')
+Category.find_or_create_by(title: 'Kondisjon', color: '#e74c3c')
+Category.find_or_create_by(title: 'Teknikk', color: '#3498db')
+Category.find_or_create_by(title: 'Balløvelser', color: '#2ecc71')
