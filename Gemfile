@@ -1,20 +1,20 @@
 source 'https://rubygems.org'
 
-ruby '2.2.4'
+ruby '2.4.1'
 
 gem 'rails', '~> 4.2'
 
-gem 'pg', '~> 0.18'
+gem 'pg', '~> 0.20'
 
 # Use Puma as the app server
-gem 'puma', '~> 3.6'
+gem 'puma', '~> 3.8'
 
 gem 'haml', '~> 4.0'
-gem 'redcarpet', '~> 3.3'
-gem 'uglifier', '~> 3.0'
+gem 'redcarpet', '~> 3.4'
+gem 'uglifier', '~> 3.1'
 gem 'therubyracer', '~> 0.12'
 gem 'pikaday-gem', '~> 1.4'
-gem 'jquery-rails', '~> 4.2'
+gem 'jquery-rails', '~> 4.3'
 gem 'turbolinks', '~> 2.5'
 
 group :production do
@@ -34,6 +34,6 @@ group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 3.3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring', '~> 1.7'
+  gem 'spring', '~> 2.0'
 end
 
