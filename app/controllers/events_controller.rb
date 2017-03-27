@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
-  before_filter :authorize, only: [:new, :edit, :update, :destroy, :mass_add, :mass_create, :edit_result, :update_result]
-  before_filter :find_event, only: [:show, :edit, :update, :destroy, :mass_add, :mass_create, :delete_participant, :edit_result, :update_result, :mass_new_results, :mass_create_results, :mass_edit_results, :mass_update_results]
-  before_filter :find_participant, only: [:delete_participant, :edit_result, :update_result]
+  before_action :authorize, only: [:new, :edit, :update, :destroy, :mass_add, :mass_create, :edit_result, :update_result]
+  before_action :find_event, only: [:show, :edit, :update, :destroy, :mass_add, :mass_create, :delete_participant, :edit_result, :update_result, :mass_new_results, :mass_create_results, :mass_edit_results, :mass_update_results]
+  before_action :find_participant, only: [:delete_participant, :edit_result, :update_result]
 
   def show
     @users = User.order('name ASC')

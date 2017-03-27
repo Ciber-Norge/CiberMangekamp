@@ -1,5 +1,5 @@
 # coding: utf-8
-class Season < ActiveRecord::Base
+class Season < ApplicationRecord
   has_many :events
 
   def generate_leaderboard

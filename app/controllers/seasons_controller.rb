@@ -1,6 +1,6 @@
 class SeasonsController < ApplicationController
-  before_filter :authorize, only: [:new, :edit, :update, :destroy]
-  before_filter :find_season, only: [:show, :edit, :update, :destroy]
+  before_action :authorize, only: [:new, :edit, :update, :destroy]
+  before_action :find_season, only: [:show, :edit, :update, :destroy]
 
   def index
     @seasons = Season.order('year DESC')

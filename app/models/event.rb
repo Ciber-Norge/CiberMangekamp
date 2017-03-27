@@ -1,4 +1,4 @@
-class Event < ActiveRecord::Base
+class Event < ApplicationRecord
   belongs_to :season
   belongs_to :category
   has_many :participants, :dependent => :destroy

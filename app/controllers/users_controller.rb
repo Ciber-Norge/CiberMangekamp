@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :authorize, only: [:new, :edit, :update, :destroy]
-  before_filter :find_user, only: [:show, :edit, :update]
+  before_action :authorize, only: [:new, :edit, :update, :destroy]
+  before_action :find_user, only: [:show, :edit, :update]
 
   def index
     @users = User.order('name ASC')
