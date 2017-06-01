@@ -7,22 +7,15 @@
       - @season.events.each do | event |       
         %td{:style => "background: #{event.category.color};"}         
           = link_to event.title , event, :style => 'text-decoration: none; color: white;'
-          - if event.id == 4
-            %i{ class: %w(fa fa-futbol-o) , style: 'color: white' }
-          -elsif event.id == 2
-            %i{ class: %w(fa fa-bicycle) , style: 'color: white'}
-          -elsif event.id == 8
-            %id{ class: %w(fa fa-snowflake-o) , style: 'color: white'}
-          -elsif event.id == 1
-            %id{ class: %w(fa fa-rocket) , style: 'color: white'}          
       %td Score
+      %td Mangekjemper
         
   %tbody
     - counter = 1
     - leaderboard.each do | key, value |
       - simple_score = 0
       %tr
-        %td
+        %td.center_table
           -if counter == 1
             %span.gold 
               = counter
@@ -37,10 +30,10 @@
               = counter
         %td
           = value[:name]
-        %td
+        %td.center_table
           = value[:events].size
         - @season.events.each do | event |
-          %td
+          %td.center_table
             - if value[:events][event.id]
               - new_rank = value[:events][event.id][:new_rank]
               - if new_rank
@@ -51,10 +44,13 @@
               (
               = value[:events][event.id][:rank]
               )
-        %td
+        %td.center_table
           -if value[:score] > 0
             = value[:score]
           - else
             - simple_score += (8 - value[:events].length) * 8
             = simple_score
+        %td.center_table
+          - if value[:mangekjemper]
+            = "\u2714".encode('utf-8')
       - counter = counter + 1

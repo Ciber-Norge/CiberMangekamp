@@ -1,4 +1,6 @@
-%h1 Hello World from Season index
+%h1
+  Ciber Mangekampen
+
 - if logged_in?
   = link_to "New season", new_season_path
   |
@@ -6,14 +8,14 @@
 - unless logged_in?
   |
   = link_to "Log in", login_path
-%ul
+%br
+%br
+%leaderboard.ul
   - @seasons.each do | season |
-    %li
+    %leaderboard.li
       = link_to season.title, season_path(season.id)
 
 :markdown
-  ## Mangekampen
-
   **Mangekampen** er den desidert mest populære aktiviteten i bedriftsidrettslaget (du kan bli med på så mange øvelser du vil). Mangekampen består av 15 individuelle øvelser som går fra august til juni. Øvelsene er delt inn i tre kategorier:
 
   * Kondisjon

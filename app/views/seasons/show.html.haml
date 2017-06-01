@@ -1,40 +1,37 @@
-%ul
-  %li
-    = link_to 'Home', root_path
-  %li
-    = link_to "New season", new_season_path
-  %li
-    = link_to "Users", users_path
-  %li#aboutlink
-    = link_to "About", "/about"
-%ul
+%h1
+  = @season.title
+
 %div.wrapper
   %div.season-info
-    %table
-      %tbody
-        %tr          
-          %th
-            Participants:
-          %td        
-            = Participant.men.where(event_id: @season.events.select(:id)).distinct.count('user_id')
-            men and
-            = Participant.women.where(event_id: @season.events.select(:id)).distinct.count('user_id')
-            women
-        %tr
-          %th
-            Season:
-          %td
-            = @season.title
-        %tr
-          %th
-            Events:
-          %td
-            = @season.events.size
-            %div.events
-              - @season.events.each do | event |
-                %td
-                  = link_to event.title, event                    
+    %h3
+      Participants:
+      = Participant.men.where(event_id: @season.events.select(:id)).distinct.count('user_id')
+      men and
+      = Participant.women.where(event_id: @season.events.select(:id)).distinct.count('user_id')
+      women
+      %br
+      Events:
+      = @season.events.size
+      %div
+        %ul
+          - @season.events.each do | event |
+            %li
+              = link_to event.title, event
+      %br
+      Categories:
+      %table
+        %tbody
+          %tr
+            - Category.all.each do | category |
+              %td{:style => "background: #{category.color}; color: white;"}
+                = category.title
+
   %p
+    = link_to 'Home', root_path
+    |
+    = link_to "New season", new_season_path
+    |
+    = link_to "Users", users_path
     - if logged_in?
       |
       = link_to 'Edit season', edit_season_path(@season.id)
@@ -49,13 +46,6 @@
       - if leaderboard[:events].empty?
         No results yet, for this season
       - else
-        %table
-          %tbody
-            - Category.all.each do | category |
-              %tr        
-                %td{:style => "background: #{category.color}; color: white;"}
-                  = category.title 
         = render :partial => 'leaderboard', :locals => {:leaderboard => leaderboard[:participants][:women]}
         %br
         = render :partial => 'leaderboard', :locals => {:leaderboard => leaderboard[:participants][:men]}
-

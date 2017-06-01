@@ -122,6 +122,8 @@ class Season < ApplicationRecord
               best << event[:new_rank]
             end
           end
+          # It's only the three best results from the
+          # category ball and endurace, that are used
           if [1, 3].include?(category_id)
             best = best.sort.slice(0, 3)
           else
@@ -130,6 +132,9 @@ class Season < ApplicationRecord
           results << best
         end
         best_results = [results[0].slice!(0), results[1].slice!(0), results[2].slice!(0)]
+        # Checks if participant can be mangekjemper
+        participant[:mangekjemper] = best_results.all?
+        best_results.compact!
         results = results.flatten.sort.slice(0, 5)
         best_results.concat(results)
         # adding points for each missing category-event
