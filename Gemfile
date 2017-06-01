@@ -20,6 +20,8 @@ gem 'turbolinks', '~> 5.0'
 group :production do
   # To enable features such as static asset serving and logging on Heroku
   gem 'rails_12factor', '~> 0.0'
+  # Looks like production really wants coffee_script
+  gem 'coffee-script', '~> 2.4', '>= 2.4.1'
 end
 
 # Use ActiveModel has_secure_password
